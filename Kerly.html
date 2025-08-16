@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para: Kerly</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      flex-direction: column;
+      padding: 20px;
+    }
+    h1 {
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+      z-index: 2;
+      position: relative;
+    }
+    h1:hover {
+      transform: scale(1.1);
+      color: yellow;
+    }
+    .corazon {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.7;
+      animation: flotar 6s infinite ease-in-out;
+    }
+    @keyframes flotar {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    #opciones {
+      display: none;
+      margin-top: 20px;
+    }
+    .btn {
+      background: yellow;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 12px 25px;
+      margin: 15px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-size: 1em;
+    }
+    .btn:hover {
+      background: orange;
+      transform: scale(1.1);
+    }
+    #resultado {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: yellow;
+      line-height: 1.4em;
+    }
+    #btnReproducir {
+      display: none;
+      margin-top: 20px;
+      background: orange;
+      color: black;
+      font-size: 1em;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #btnReproducir:hover {
+      background: yellow;
+      transform: scale(1.1);
+    }
+    iframe {
+      margin-top: 20px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="mensaje">Buen día, señorita Kerly, de click si es usted</h1>
+
+  <div id="opciones">
+    <h2>Elige solo una opción, solo tienes una cosa</h2>
+    <button class="btn" id="no">No te amo, eres una persona desastrosa y no te quiero</button>
+    <button class="btn" id="si">Te amo Ender, eres un idiota pero te amo</button>
+  </div>
+
+  <div id="resultado"></div>
+  <button id="btnReproducir">🎵 Reproducir canción</button>
+
+  <!-- Audio para "La Mitad" -->
+  <audio id="musica" src="https://archive.org/download/y-2mate.com-camilo-christian-nodal-la-mitad/y-2mate.com-camilo-christian-nodal-la-mitad.mp3"></audio>
+
+  <script>
+    const mensajes = [
+      "Dale click si Ender es un idiota",
+      "Dale click si no quieres saber nada de él",
+      "Dale click si es un tonto",
+      "Dale click si con sus tonterías te ha hecho reír",
+      "Dale click si te ha ayudado a sentirte cuando todo estaba mal",
+      "Dale click si lo detestas, es hombre después de todo",
+      "Dale click si sabes que siempre está intentando mejorar para ser un buen hombre para ti",
+      "Dale click si… ¿Lo amas?",
+      "Ahora dale click, si:",
+      "Perdón, sé que soy un tonto, pero este tonto te ama con locura, no quiero perder al amor de mi vida",
+      "Quiero que seas tú en todas las vidas, pero como nadie sabe si hay otras, quiero que seas tú el resto que queda de esta, hasta viejitos, como dijimos 💛"
+    ];
+
+    let index = 0;
+    const mensaje = document.getElementById("mensaje");
+    const opciones = document.getElementById("opciones");
+    const resultado = document.getElementById("resultado");
+    const musica = document.getElementById("musica");
+    const btnReproducir = document.getElementById("btnReproducir");
+
+    // Corazones amarillos flotando de fondo
+    const corazones = [];
+    for (let i = 0; i < 40; i++) {
+      let c = document.createElement("div");
+      c.classList.add("corazon");
+      c.textContent = "💛"; 
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.top = Math.random() * 100 + "vh";
+      c.style.fontSize = (Math.random() * 15 + 10) + "px";
+      c.style.animationDuration = (Math.random() * 4 + 4) + "s";
+      document.body.appendChild(c);
+      corazones.push(c);
+    }
+
+    mensaje.addEventListener("click", () => {
+      if (index < mensajes.length) {
+        mensaje.textContent = mensajes[index];
+        index++;
+      } else {
+        mensaje.style.display = "none";
+        opciones.style.display = "block";
+      }
+    });
+
+    document.getElementById("si").addEventListener("click", () => {
+      opciones.style.display = "none";
+      resultado.style.display = "block";
+      resultado.textContent = "Gracias por amarme y estar ahí, entendería perfectamente la otra opción pero estoy feliz de saber que escogiste esta, porque yo te amo a montones y tu voz sincera cuando me decías te amo, mientras me mirabas, son cosas que no quiero dejar atrás, quiero que sean mi presente y futuro";
+
+      // Mostrar botón de reproducción
+      btnReproducir.style.display = "inline-block";
+      btnReproducir.onclick = () => {
+        // Insertar iframe de YouTube
+        const iframe = document.createElement("iframe");
+        iframe.width = "300";
+        iframe.height = "150";
+        iframe.src = "https://www.youtube.com/embed/8Cz0Qe9Oou4?autoplay=1"; // Reemplazar con link correcto
+        iframe.allow = "autoplay; encrypted-media";
+        document.body.appendChild(iframe);
+        btnReproducir.style.display = "none";
+      };
+    });
+
+    document.getElementById("no").addEventListener("click", () => {
+      opciones.style.display = "none";
+      resultado.style.display = "block";
+      resultado.textContent = "Te entiendo, y puedo entender que no quieras a alguien tan detestable, sé que mentí y no me considero alguien bueno por eso, simplemente tengo para decir que sobre todas las cosas, estuviste ahí, jamás quisiera estar con alguien más, no soy tan repulsivo para eso, pero por mentiroso entiendo que no me quieras a tu lado, yo en cambio seguiré amándote, todos tenemos errores y yo deseo enmendar con hechos este, gracias por quedarte hasta acá";
+      
+      // Cambiar todos los corazones a corazones rotos
+      corazones.forEach(c => c.textContent = "💔");
+      
+      // Mostrar botón de reproducción para "La Mitad"
+      btnReproducir.style.display = "inline-block";
+      btnReproducir.onclick = () => {
+        musica.play();
+        btnReproducir.style.display = "none";
+      };
+    });
+
+  </script>
+
+</body>
+</html>
